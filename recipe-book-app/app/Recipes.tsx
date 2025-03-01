@@ -3,13 +3,11 @@ export class Recipe {
     description: string;
     ingredients: string[];
     directions: string[];
-    image: string;
     constructor(recipe: {title: string, description: string, ingredients: string[], directions: string[]}) {
         this.title = recipe.title;
         this.description = recipe.description;
         this.ingredients = recipe.ingredients;
         this.directions = recipe.directions;
-        this.image = selectImage(recipe.title);
     }
 }
 
@@ -44,7 +42,7 @@ export function selectImage(recipeName: string)
     return imageArray[recipeName];
 }
 
-export const recipes =
+export const Recipes: Recipe[] =
     [
         {
             "title": "Spaghetti",

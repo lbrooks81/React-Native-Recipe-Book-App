@@ -1,28 +1,31 @@
-import {View, Text, Button, StyleSheet, Image, ScrollView} from "react-native";
+import {View, Text, Button, StyleSheet, Image, ScrollView, FlatList, ViewabilityConfig} from "react-native";
 
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RootStackParamList} from "@/app/index";
-import {Recipe, recipes, selectImage} from "@/app/Recipes";
+import {Recipe, Recipes, selectImage} from "@/app/Recipes";
+import {useState} from "react";
 interface HomeScreenProps extends NativeStackScreenProps<RootStackParamList, "List"> {}
 export default function ListScreen({navigation} : HomeScreenProps) {
 
     const onPressDetails =
         (recipe: Recipe) => {navigation.navigate("Details", { recipe })}
+    const [recipes, setRecipes] = useState(Array.from(Recipes));
 
+    const viewabilityConfig: ViewabilityConfig = {
+        minimumViewTime: 400
+    }
     return (
-        <ScrollView>
-            {recipes.map((recipe, index) => (
-                <View style={styles.container} key={index}>
-                    <Image style={styles.thumbnail} source={selectImage(recipe.title)}></Image>
-                    <View style={styles.col}>
-                        <Text style={styles.title}>{recipe.title}</Text>
-                        <Text>{recipe.description}</Text>
-                        <Button title="View Recipe" onPress={() => {
-                            onPressDetails(new Recipe(recipe))}}/>
-                    </View>
+        <FlatList overScrollMode="never" viewabilityConfig={viewabilityConfig} data={recipes} renderItem={({item}) => (
+            <View style={styles.container}>
+                <Image style={styles.thumbnail} source={selectImage(item.title)}></Image>
+                <View style={styles.col}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text>{item.description}</Text>
+                    <Button title="View Recipe" onPress={() => {
+                        onPressDetails(new Recipe(item))}}/>
                 </View>
-            ))}
-        </ScrollView>
+            </View>
+        )}/>
     );
 }
 
@@ -45,8 +48,8 @@ const styles = StyleSheet.create({
         maxWidth: "50%"
     },
     thumbnail: {
-        width: 125,
-        height: 125,
+        width: 150,
+        height: 150,
         resizeMode: "contain",
         marginRight: 5
     },
