@@ -43,15 +43,10 @@ export default function ListScreen({navigation} : HomeScreenProps) {
             }
             return true;
         }));
-        /*for(const recipe of recipes)
-        {
-            console.log(`${recipe.title}`);
-        }*/
     }
     const viewabilityConfig: ViewabilityConfig = {
         minimumViewTime: 400,
     }
-    // TODO remove header, implement <SearchBar>
     return (
         <>
             <View style={styles.headerContainer}>
